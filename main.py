@@ -18,7 +18,7 @@ def main( ):
     
     with tf.name_scope('loss'):
         loss = tf.reduce_mean(tf.square(y-y_))
-        loss_summary = tf.summary.scalar('loss', loss)
+        # loss_summary = tf.summary.scalar('loss', loss)
 
     with tf.name_scope('optim'):
         optimizer = tf.train.AdamOptimizer()
@@ -34,7 +34,7 @@ def main( ):
 
         saver = tf.train.Saver(max_to_keep=2)
 
-        gstep = 0
+        # gstep = 0
         for E in range(Epochs):
             avgloss = 0.
 
@@ -42,12 +42,12 @@ def main( ):
             for I in range(int(55000/bsize)):
                 X, _ = mnist.train.next_batch(bsize, shuffle=True)
                 Xs, R = shift_batch_rand(X)
-                l, lsum, _ = sess.run([loss, loss_summary, train_step], feed_dict={x: X, dxy: R, y: Xs})
+                l, _ = sess.run([loss, train_step], feed_dict={x: X, dxy: R, y: Xs})
                 avgloss = ((avgloss*I) + l)/(I + 1)
                 if I % 100 == 0:
                     print('epoch {0} iteration {1}'.format(E, I))
-                    writer.add_summary(lsum, gstep)
-                gstep += 1
+                    # writer.add_summary(lsum, gstep)
+                # gstep += 1
 
             print('epoch {0} avgloss {1}'.format(E, avgloss))
             saver.save(sess, 'transaemodels/model{0}'.format(E))
