@@ -46,7 +46,7 @@ class Capsule( object ):
             if separate_prob:
                 return self.reco, self.pr
             else:
-                return tf.multiply(self.reco, self.pr)
+                return tf.multiply(self.reco, self.pr, name='weighted_reco')
 
     def __apply_layer(self, name, input, weight, bias = None, activation = tf.identity):
         'get the output tensors from inputs'
